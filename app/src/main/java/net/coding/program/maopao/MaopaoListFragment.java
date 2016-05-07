@@ -11,9 +11,12 @@ import android.view.ViewPropertyAnimator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bigkoo.convenientbanner.CBPageAdapter;
-import com.bigkoo.convenientbanner.CBViewHolderCreator;
+//import com.bigkoo.convenientbanner.CBPageAdapter;
+//import com.bigkoo.convenientbanner.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.bigkoo.convenientbanner.adapter.CBPageAdapter;
+import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
+import com.bigkoo.convenientbanner.holder.Holder;
 import com.melnykov.fab.FloatingActionButton;
 import com.twotoasters.jazzylistview.effects.SlideInEffect;
 
@@ -343,7 +346,7 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         }
     }
 
-    class LocalImageHolder implements CBPageAdapter.Holder<BannerObject> {
+    class LocalImageHolder implements Holder<BannerObject> {
         ImageView imageView;
 
         @Override
