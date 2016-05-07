@@ -37,6 +37,7 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -87,6 +88,7 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
     }
 
     // 用于处理推送
+    @Subscribe
     public void onEventMainThread(EventPosition event) {
         int position = event.position;
         pager.setCurrentItem(position, false);

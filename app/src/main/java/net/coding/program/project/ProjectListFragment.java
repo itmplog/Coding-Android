@@ -33,6 +33,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -145,6 +146,7 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
     }
 
     // 用于处理推送
+    @Subscribe
     public void onEventMainThread(EventRefresh event) {
         if (event.refresh) {
             notifyEmputy();
