@@ -12,7 +12,7 @@ android {
     }
 
     defaultConfig {
-        useLibrary 'org.apache.http.legacy'
+        //useLibrary 'org.apache.http.legacy'
         applicationId "net.coding.program"
         renderscriptTargetApi 19
         multiDexEnabled true

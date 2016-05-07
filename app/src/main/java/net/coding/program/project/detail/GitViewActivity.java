@@ -33,13 +33,15 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
-import org.apache.http.Header;
+//import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import cz.msebera.android.httpclient.Header;
 
 @EActivity(R.layout.activity_gitview)
 @OptionsMenu(R.menu.git_view)

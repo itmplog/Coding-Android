@@ -185,8 +185,8 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
                         circleImageView.setTag(userObject.global_key);
                         circleImageView.setOnClickListener(mOnClickUser);
                         layoutParams = new FlowLayout.LayoutParams(getPxValue(40f), getPxValue(40f));
-                        layoutParams.weight = 1;
-                        layoutParams.newLine = false;
+                        layoutParams.setWeight(1);
+                        layoutParams.setNewLine(false);
                         layoutParams.setMargins(10, 0, 10, 0);
                         circleImageView.setLayoutParams(layoutParams);
                         iconfromNetwork(circleImageView, userObject.avatar);

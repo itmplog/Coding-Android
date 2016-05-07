@@ -30,7 +30,7 @@ import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Maopao;
 
-import org.apache.http.Header;
+//import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,6 +41,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by chenchao on 15/3/31.

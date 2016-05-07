@@ -51,11 +51,13 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.FocusChange;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
-import org.apache.http.Header;
+//import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+
+import cz.msebera.android.httpclient.Header;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {

@@ -36,7 +36,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
-import org.apache.http.Header;
+//import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,6 +45,7 @@ import java.util.HashMap;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import cz.msebera.android.httpclient.Header;
 import pl.droidsonroids.gif.GifImageView;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -77,6 +78,11 @@ public class ImagePagerFragment extends BaseFragment {
         @Override
         public void onPhotoTap(View view, float v, float v2) {
             getActivity().onBackPressed();
+        }
+
+        @Override
+        public void onOutsidePhotoTap() {
+
         }
     };
     private final PhotoViewAttacher.OnViewTapListener onViewTapListener = new PhotoViewAttacher.OnViewTapListener() {

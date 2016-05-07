@@ -31,11 +31,13 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
-import org.apache.http.Header;
+//import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * 展示某一项目文档目录下面文件的BsseActivity

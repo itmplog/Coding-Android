@@ -53,13 +53,15 @@ import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
-import org.apache.http.Header;
+//import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by chenchao on 15/9/22.

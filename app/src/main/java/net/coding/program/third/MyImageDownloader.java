@@ -7,8 +7,6 @@ import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
 import net.coding.program.common.Global;
 
-import org.apache.http.cookie.Cookie;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.security.cert.CertificateException;
@@ -20,6 +18,8 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+
+import cz.msebera.android.httpclient.cookie.Cookie;
 
 /**
  * Created by chaochen on 14-10-7.

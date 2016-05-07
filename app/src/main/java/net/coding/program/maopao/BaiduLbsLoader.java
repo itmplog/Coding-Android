@@ -13,7 +13,7 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.model.LocationObject;
 import net.coding.program.model.UserObject;
 
-import org.apache.http.Header;
+//import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,6 +25,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import cz.msebera.android.httpclient.Header;
 
 public class BaiduLbsLoader {
 

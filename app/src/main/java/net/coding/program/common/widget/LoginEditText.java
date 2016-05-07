@@ -24,7 +24,9 @@ import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.util.OnTextChange;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
+
+//import org.apache.http.Header;
 
 /**
  * Created by chenchao on 15/12/17.
