@@ -38,7 +38,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 

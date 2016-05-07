@@ -45,7 +45,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 @EFragment(R.layout.fragment_project)
 @OptionsMenu(R.menu.menu_project_item)
