@@ -1,9 +1,7 @@
 package net.coding.program;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
@@ -11,6 +9,8 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
@@ -18,7 +18,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.coding.program.common.BlankViewDisplay;
@@ -36,19 +35,17 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
-//import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.HashMap;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import cz.msebera.android.httpclient.Header;
 import pl.droidsonroids.gif.GifImageView;
-import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
+
+//import org.apache.http.Header;
 
 /**
  * Created by chaochen on 2014-9-7.
@@ -66,8 +63,9 @@ public class ImagePagerFragment extends BaseFragment {
             .resetViewBeforeLoading(true)
             .cacheInMemory(false)
             .considerExifParams(true)
-            .imageScaleType(ImageScaleType.NONE)
+            .imageScaleType(ImageScaleType.NONE_SAFE)
             .build();
+
     private final View.OnClickListener onClickImageClose = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -91,6 +89,7 @@ public class ImagePagerFragment extends BaseFragment {
             getActivity().onBackPressed();
         }
     };
+
     @ViewById
     DonutProgress circleLoading;
     @ViewById
@@ -113,8 +112,7 @@ public class ImagePagerFragment extends BaseFragment {
     int mProjectObjectId;
 
     @FragmentArg // 是否允许使用自己的菜单
-            boolean customMenu = true;
-
+    boolean customMenu = true;
 
     private String URL_FILES_BASE = Global.HOST_API + "/project/%d/files/%s/view";
     private String URL_FILES = "";
@@ -176,12 +174,12 @@ public class ImagePagerFragment extends BaseFragment {
         if (image != null) {
             if (image instanceof GifImageView) {
                 ((GifImageView) image).setImageURI(null);
-            } else if (image instanceof PhotoView) {
-                try {
-                    ((BitmapDrawable) ((PhotoView) image).getDrawable()).getBitmap().recycle();
-                } catch (Exception e) {
-                    Global.errorLog(e);
-                }
+//            } else if (image instanceof PhotoView) {
+//                try {
+//                    ((SubsamplingScaleImageView) image).setImageDrawable(null);
+//                } catch (Exception e) {
+//                    Global.errorLog(e);
+//                }
             }
         }
 
@@ -193,7 +191,7 @@ public class ImagePagerFragment extends BaseFragment {
             return;
         }
 
-        ImageSize size = new ImageSize(GL10.GL_MAX_TEXTURE_SIZE, GL10.GL_MAX_TEXTURE_SIZE);
+        ImageSize size = new ImageSize(10000, 10000);
         getImageLoad().imageLoader.loadImage(uri, size, optionsImage, new SimpleImageLoadingListener() {
 
                     @Override
@@ -230,61 +228,62 @@ public class ImagePagerFragment extends BaseFragment {
                             rootLayout.addView(image);
                             image.setOnClickListener(onClickImageClose);
                         } else {
-                            PhotoView photoView = (PhotoView) getActivity().getLayoutInflater().inflate(R.layout.imageview_touch, null);
+                            SubsamplingScaleImageView photoView = (SubsamplingScaleImageView) getActivity().getLayoutInflater().inflate(R.layout.imageview_touch, rootLayout, false);
                             image = photoView;
                             rootLayout.addView(image);
-                            photoView.setOnPhotoTapListener(onPhotoTapClose);
-                            photoView.setOnViewTapListener(onViewTapListener);
+//                            photoView.setOnPhotoTapListener(onPhotoTapClose);
+//                            photoView.setOnViewTapListener(onViewTapListener);
+                            photoView.setOnClickListener(v -> getActivity().onBackPressed());
+//                            photoView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP);
+//                            photoView.setMa
+//                            photoView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM);
+//                            photoView.setMinScale(10.f);
                         }
 
-                        image.setOnLongClickListener(new View.OnLongClickListener() {
-                            @Override
-                            public boolean onLongClick(View v) {
-                                new AlertDialog.Builder(getActivity())
-                                        .setItems(new String[]{"保存到手机"}, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                if (which == 0) {
-                                                    if (client == null) {
-                                                        client = MyAsyncHttpClient.createClient(getActivity());
-                                                        client.get(getActivity(), imageUri, new FileAsyncHttpResponseHandler(mFile) {
+                        image.setOnLongClickListener(v -> {
+                            new AlertDialog.Builder(getActivity())
+                                    .setItems(new String[]{"保存到手机"}, (dialog, which) -> {
+                                        if (which == 0) {
+                                            if (client == null) {
+                                                client = MyAsyncHttpClient.createClient(getActivity());
+                                                client.get(getActivity(), imageUri, new FileAsyncHttpResponseHandler(mFile) {
 
-                                                            @Override
-                                                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                                                                if (!isResumed()) {
-                                                                    return;
-                                                                }
-                                                                client = null;
-                                                                showButtomToast("保存失败");
-                                                            }
-
-                                                            @Override
-                                                            public void onSuccess(int statusCode, Header[] headers, File file) {
-                                                                if (!isResumed()) {
-                                                                    return;
-                                                                }
-                                                                client = null;
-                                                                showButtomToast("图片已保存到:" + file.getPath());
-                                                                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));/**/
-                                                            }
-                                                        });
+                                                    @Override
+                                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file1) {
+                                                        if (!isResumed()) {
+                                                            return;
+                                                        }
+                                                        client = null;
+                                                        showButtomToast("保存失败");
                                                     }
 
-                                                }
+                                                    @Override
+                                                    public void onSuccess(int statusCode, Header[] headers, File file1) {
+                                                        if (!isResumed()) {
+                                                            return;
+                                                        }
+                                                        client = null;
+                                                        showButtomToast("图片已保存到:" + file1.getPath());
+                                                        getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file1)));/**/
+                                                    }
+                                                });
                                             }
-                                        })
-                                        .show();
 
-                                return true;
-                            }
+                                        }
+                                    })
+                                    .show();
+
+                            return true;
                         });
 
                         try {
                             if (image instanceof GifImageView) {
                                 Uri uri1 = Uri.fromFile(file);
                                 ((GifImageView) image).setImageURI(uri1);
-                            } else if (image instanceof PhotoView) {
-                                ((PhotoView) image).setImageBitmap(loadedImage);
+                            } else if (image instanceof SubsamplingScaleImageView) {
+                                SubsamplingScaleImageView scaleImageView = (SubsamplingScaleImageView) ImagePagerFragment.this.image;
+                                scaleImageView.setImage(ImageSource.uri(file.getAbsolutePath()));
+//                                scaleImageView.setPanLimit(SubsamplingScaleImageView.PAN_LIMIT_OUTSIDE);
 
                             }
                         } catch (Exception e) {
@@ -292,16 +291,13 @@ public class ImagePagerFragment extends BaseFragment {
                         }
                     }
                 },
-                new ImageLoadingProgressListener() {
-
-                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
-                        if (!isAdded()) {
-                            return;
-                        }
-
-                        int progress = current * 100 / total;
-                        circleLoading.setProgress(progress);
+                (imageUri, view, current, total) -> {
+                    if (!isAdded()) {
+                        return;
                     }
+
+                    int progress = current * 100 / total;
+                    circleLoading.setProgress(progress);
                 });
 
         FileSaveHelp fileSaveHelp = new FileSaveHelp(getActivity());

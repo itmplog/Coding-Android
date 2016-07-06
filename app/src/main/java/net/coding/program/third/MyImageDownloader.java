@@ -9,8 +9,6 @@ import net.coding.program.common.Global;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -28,30 +26,11 @@ public class MyImageDownloader extends BaseImageDownloader {
 
     public MyImageDownloader(Context context) {
         super(context);
-        initSSLSocketFactory();
-    }
-
-    private SSLSocketFactory sf;
-
-    private void initSSLSocketFactory() {
-        try {
-            SSLContext sslContext = SSLContext.getInstance("TLS");
-
-            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-            sf = sslContext.getSocketFactory();
-
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
     }
 
     @Override
     protected HttpURLConnection createConnection(String url, Object extra) throws IOException {
         HttpURLConnection conn = super.createConnection(url, extra);
-
-        if (conn instanceof HttpsURLConnection) {
-            ((HttpsURLConnection) conn).setSSLSocketFactory(sf);
-        }
 
         if (url.startsWith(Global.HOST)) {
             PersistentCookieStore cookieStore = new PersistentCookieStore(context);
@@ -71,19 +50,4 @@ public class MyImageDownloader extends BaseImageDownloader {
         return conn;
     }
 
-    TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
-        public X509Certificate[] getAcceptedIssuers() {
-            return null;
-        }
-
-        @Override
-        public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-            // Not implemented
-        }
-
-        @Override
-        public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-            // Not implemented
-        }
-    }};
 }

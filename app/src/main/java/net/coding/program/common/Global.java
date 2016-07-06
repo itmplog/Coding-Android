@@ -184,7 +184,7 @@ public class Global {
 
     public static void copy(Context context, String content) {
         ClipboardManager cmb = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-        String url = HtmlContent.parseReplacePhotoEmoji(content);
+        String url = HtmlContent.parseReplaceHtml(content);
         cmb.setText(url);
     }
 
@@ -405,6 +405,19 @@ public class Global {
         return s;
     }
 
+    static public String readTextFile(Context context, String assetFile) throws IOException {
+        InputStream inputStream = context.getAssets().open(assetFile);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte buf[] = new byte[1024];
+        int len;
+        while ((len = inputStream.read(buf)) != -1) {
+            outputStream.write(buf, 0, len);
+        }
+        outputStream.close();
+        inputStream.close();
+
+        return outputStream.toString();
+    }
 
     static public String readTextFile(File file) {
         try {

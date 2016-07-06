@@ -12,7 +12,7 @@
     <string name="title_activity_test">TestActivity</string>
     <string name="title_activity_setting">设置</string>
     <string name="title_activity_user_info">个人信息</string>
-    <string name="title_activity_set_password">密码设置</string>
+    <string name="title_activity_set_password">修改密码</string>
     <string name="title_activity_feedback">用户反馈</string>
     <string name="title_activity_about">关于我们</string>
     <string name="title_activity_topic_comment">讨论</string>
@@ -185,5 +185,9 @@
     <string name="title_activity_ref_resource">关联资源</string>
     <string name="title_activity_edit_code">编辑代码</string>
     <string name="title_activity_set_global_key">设置用户名</string>
+    <string name="clear_cache_message">缓存数据有助于再次浏览或离线查看，你确定要清除缓存吗？</string>
+    <string name="title_activity_modify_email">修改邮箱</string>
+
+    <string name="title_activity_country_pick">选择国家和地区</string>
 
 </resources>
